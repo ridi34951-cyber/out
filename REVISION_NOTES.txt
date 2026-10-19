@@ -1,0 +1,14 @@
+GyroLock revision notes
+
+Changes in this source revision:
+- Added an iPhone-inspired centered circular shutter control and a 0.5× zoom control. It uses CameraX's reported minimum zoom ratio; actual ultrawide support depends on the phone exposing its ultrawide field of view through the selected back camera.
+- Zoom transitions now animate smoothly between the current and selected ratio (approximately 180–420 ms), rather than jumping instantly.
+- Opening video motion blur now fades out over 0.12 seconds. This is a video-renderer effect only; the still photo remains on the independent ImageCapture path and is not zoomed or blurred by this shader.
+- Video-only crop is ratio-specific: 3:4 uses a modest 1.07× safety crop; 9:16 uses about 1.015×. The still JPEG is not processed by this renderer.
+- Existing 3:4 and 9:16 Motion Photo output selection remains available.
+- Existing stabilization, photo/Motion Photo writing, and build workflow are otherwise retained.
+
+Important limitations:
+- This is Android source, not a prebuilt APK. It has not been compiled or tested on the target Samsung/Oppo device in this environment.
+- 0.5× is available only if CameraX reports a minimum zoom ratio below 1.0 for the bound back camera. Some phones expose ultrawide as a separate physical camera and may require explicit physical-camera selection; this UI cannot guarantee switching lenses on every device.
+- Zoom transition animation and source changes require on-device testing.
